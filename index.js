@@ -10,7 +10,7 @@ var SERVICE_CHECK_HTTP = process.env.SERVICE_CHECK_HTTP || '/healthcheck';
 // Create a new express app
 var app = express();
 
-app.use(bodyParser.text());
+app.use(bodyParser.json());
 
 // Add CORS headers
 app.use(cors());
@@ -20,7 +20,7 @@ app.get(SERVICE_CHECK_HTTP, function (req, res) {
   res.send({ message: 'OK' });
 });
 
-var carts = [];
+var products = [];
 
 app.get('/carts', function (req, res) {
   res.send(carts);
@@ -28,15 +28,40 @@ app.get('/carts', function (req, res) {
 });
 
 app.get('/carts/:sessionid', function (req, res) {
-  res.send(carts[req.params.id]);
+  cart = GetCart(sessionId)
+  res.send(cart);
 });
 
 app.post('/addProduct', function (req, res) {
-  carts.push(req.body.toString());
-  res.status(201).location('/carts/' + carts.length).end();
+	var product = req.body;
+	products.push(product);
+    res.status(201).location('/carts/' + product.sessionId + '/' + product.Id).end();
 });
 
 
+var getCart = function (sessionId) {
+	var products = getProducts(sessionId);
+	var totalPrice = calculateTotalPrice(products);
+	return {Products : products, TotalPrice : totalPrice, SessionId : sessionId}
+  });
+  
+  
+  var calculateTotalPrice(products){
+	var sum = 0;
+	products.forEach(function(entry){
+		sum = sum + entry.Price;
+	})
+	return sum;
+  }
+  
+ var getProducts= function(sessionId){
+	 var result = [];
+	 products.forEach(function(entry){
+		 if(entry.sessionId === sessionId)
+			 result.push(entry)
+	 })
+	 return result;
+ }
 // Start the server
 var server = app.listen(PORT);
 
