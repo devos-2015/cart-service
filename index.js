@@ -34,6 +34,8 @@ app.get('/carts/:sessionid', function (req, res) {
 
 app.post('/addProduct', function (req, res) {
 	var product = req.body;
+	if(!product)
+		return res.status(401).send();
 	products.push(product);
     res.status(201).location('/carts/' + product.sessionId + '/' + product.Id).end();
 });
@@ -42,7 +44,7 @@ app.post('/addProduct', function (req, res) {
 var getCart = function (sessionId) {
 	var products = getProducts(sessionId);
 	var totalPrice = calculateTotalPrice(products);
-	return {Products : products, TotalPrice : totalPrice, SessionId : sessionId}
+	return {products : products, totalPrice : totalPrice, sessionId : sessionId}
   });
   
   
