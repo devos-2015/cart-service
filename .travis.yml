@@ -1,17 +1,20 @@
-sudo: required1 
-language: CSharp
-mono:
-  - latest
-  
+sudo: required
+
+language: node_js
+
+services:
+  - docker
+
+node_js:
+  - "4.1"
+
 # https://github.com/travis-ci/travis-ci/issues/4778
 before_install:
   - sudo service docker restart; sleep 10;
-  
+
 install:
-   - curl -sSL https://raw.githubusercontent.com/aspnet/Home/dev/dnvminstall.sh | DNX_BRANCH=dev sh && source ~/.dnx/dnvm/dnvm.sh
-   - dnvm upgrade
-   - dnu restore
+  - npm install
+  - npm install -g gulp
+
 script:
-   - docker build -t cart-service .
-   - docker tag cart-service localhost:5000/cart-service:0.0.2
-   - docker push localhost:5000/cart-service:0.0.2
+  - gulp ci-build --tag=${TRAVIS_TAG}
