@@ -1,7 +1,7 @@
 # hello-world-service
 
-[![Build Status](https://travis-ci.org/devos-2015/hello-world-service.svg)](https://travis-ci.org/devos-2015/hello-world-service)
-[![Dependencies](https://david-dm.org/devos-2015/hello-world-service.svg)](https://david-dm.org/badges/shields)
+[![Build Status](https://travis-ci.org/devos-2015/cart-service.svg)](https://travis-ci.org/devos-2015/cart-service)
+[![Dependencies](https://david-dm.org/devos-2015/cart-service.svg)](https://david-dm.org/badges/shields)
 
 This is an example of a node.js microservice
 
@@ -20,12 +20,12 @@ docker build -t hello-world-service .
 ## Run the Docker container locally
 
 ~~~ sh
-docker run -it -p 3000:3000 hello-world-service
+docker run -it -p 3000:3000 cart-service
 ~~~
 
 ## Push the Docker container into the private registry
 
 ~~~ sh
-docker tag hello-world-service 46.101.193.82:5000/hello-world-service:1.0.0
-docker push 46.101.193.82:5000/hello-world-service:1.0.0
+docker tag hello-world-service 46.101.193.82:5000/cart-service:1.0.0
+docker push 46.101.193.82:5000/cart-service:1.0.0
 ~~~
